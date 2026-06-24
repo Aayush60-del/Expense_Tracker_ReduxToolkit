@@ -1,120 +1,101 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../features/Auth/AuthSlice";
-import { motion } from "framer-motion";
 import {
-  LayoutDashboard,
-  Wallet,
-  CreditCard,
   BarChart3,
+  FolderOpen,
+  Grid2X2,
+  LogOut,
+  PlusCircle,
+  ReceiptText,
   Settings,
-  Plus,
-  Tags,
-  X,
-  LogOut
+  Wallet,
 } from "lucide-react";
+import { logout, reset } from "../features/Auth/AuthSlice";
 
-const SideNav = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
+const navItems = [
+  { label: "Dashboard", path: "/", icon: Grid2X2 },
+  { label: "Transactions", path: "/transactions", icon: ReceiptText },
+  { label: "Add Transaction", path: "/addtransaction", icon: PlusCircle },
+  { label: "Categories", path: "/categories", icon: FolderOpen },
+  { label: "Reports", path: "/report", icon: BarChart3 },
+  { label: "Settings", path: "/settings", icon: Settings },
+];
+
+const SideNav = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
 
-  const menuItems = [
-    { label: "Dashboard", path: "/", icon: LayoutDashboard },
-    { label: "Transactions", path: "/transactions", icon: Wallet },
-    { label: "Add Transaction", path: "/addtransaction", icon: Plus },
-    { label: "Categories", path: "/categories", icon: Tags },
-    { label: "Reports", path: "/report", icon: BarChart3 },
-    { label: "Settings", path: "/settings", icon: Settings },
-  ];
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/landing");
+  };
 
   return (
-    <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-blue-600 text-white transform transition-transform duration-300 ease-in-out md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
-      <div className="flex h-full flex-col">
-        <div className="flex items-center justify-between px-6 py-8">
-          <motion.div
-            className="flex items-center gap-3"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-blue-600 font-bold text-xl">
-              E
-            </div>
-            <h1 className="text-xl font-bold tracking-tight">Expense Tracker</h1>
-          </motion.div>
-          <button className="md:hidden text-white/80 hover:text-white" onClick={onClose}>
-            <X size={24} />
-          </button>
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[255px] border-r border-slate-200 bg-white lg:flex lg:flex-col dark:border-slate-800 dark:bg-slate-950">
+      <div className="flex h-[70px] items-center gap-3 border-b border-slate-200 px-5 dark:border-slate-800">
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/20">
+          <Wallet className="h-5 w-5" />
         </div>
+        <span className="text-lg font-black tracking-tight text-slate-950 dark:text-white">
+          ExpenseTracker
+        </span>
+      </div>
 
-        <div className="flex-1 px-4 space-y-2">
-          {menuItems.map((item, index) => {
-            const Icon = item.icon;
-            const isActive = location.pathname.startsWith(item.path);
-            return (
-              <motion.div
-                key={item.path}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-              >
-                <motion.button
-                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${isActive
-                    ? "bg-white text-blue-600 shadow-md"
-                    : "text-white/80 hover:bg-white/10 hover:text-white"
-                    }`}
-                  onClick={() => {
-                    navigate(item.path);
-                    onClose?.();
-                  }}
-                  whileHover={{ x: 4 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Icon size={20} className={isActive ? "text-blue-600" : "text-white/80"} />
-                  <span>{item.label}</span>
-                </motion.button>
-              </motion.div>
-            );
-          })}
-        </div>
+      <nav className="flex-1 space-y-1 px-3 py-5">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const active =
+            item.path === "/"
+              ? location.pathname === "/"
+              : location.pathname.startsWith(item.path);
 
-        <div className="p-6 mt-auto">
-          {user ? (
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white font-bold">
-                (user?.name?.charAt(0) || "U")
-              </div>
-              <div className="overflow-hidden">
-                <p className="truncate text-sm font-medium text-white">{user.name || "User"}</p>
-                <p className="truncate text-xs text-white/70">{user.email}</p>
-              </div>
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition ${
+                active
+                  ? "bg-blue-50 text-blue-700 shadow-sm dark:bg-blue-500/15 dark:text-blue-200"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-white"
+              }`}
+            >
+              <Icon className="h-5 w-5" />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="p-3">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-700 text-sm font-black text-white">
+              {user?.name?.charAt(0)?.toUpperCase() || "U"}
             </div>
-          ) : (
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/80 text-white font-bold">
-                G
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white">Guest User</p>
-              </div>
-            </div>
-          )}
 
-          <button
-            onClick={() => {
-              dispatch(logout());
-              navigate("/login");
-            }}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-500/20 px-4 py-2 text-sm font-medium text-red-100 hover:bg-red-500/30 transition-colors"
-          >
-            <LogOut size={18} />
-            <span>Logout</span>
-          </button>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-black text-slate-950 dark:text-white">
+                {user?.name || "Guest User"}
+              </p>
+              <p className="truncate text-xs font-medium text-slate-500 dark:text-slate-400">
+                {user?.email || "guest@local"}
+              </p>
+            </div>
+
+            <button
+              onClick={onLogout}
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-white hover:text-red-600 dark:hover:bg-slate-800"
+              title="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </aside>
   );
 };
 

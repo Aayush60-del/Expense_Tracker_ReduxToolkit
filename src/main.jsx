@@ -1,3 +1,4 @@
+﻿import { applyStoredTheme, subscribeToSystemTheme } from "./lib/theme";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import "./index.css";
@@ -25,3 +26,5 @@ persistor={persistor}
 </Provider>
 
 );
+applyStoredTheme();
+subscribeToSystemTheme();

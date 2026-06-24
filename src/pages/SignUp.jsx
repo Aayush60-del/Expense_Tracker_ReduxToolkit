@@ -1,192 +1,193 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register, reset, guestLogin } from "../features/Auth/AuthSlice";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-import { Wallet, Sparkles, Loader2, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Loader2,
+  Lock,
+  Mail,
+  Sparkles,
+  User,
+  Wallet,
+} from "lucide-react";
+import { guestLogin, register, reset } from "../features/Auth/AuthSlice";
 
-export default function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, guestMode, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+  const { user, guestMode, isLoading, isError, isSuccess, message } =
+    useSelector((state) => state.auth || {});
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user || guestMode) {
-      navigate("/");
-    }
+    if (isError) toast.error(message);
+    if (isSuccess || user || guestMode) navigate("/");
+
     dispatch(reset());
   }, [user, guestMode, isError, isSuccess, message, navigate, dispatch]);
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    if (!name || !email || !password) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!form.name || !form.email || !form.password) {
       toast.error("Please fill in all fields");
       return;
     }
-    if (password.length < 6) {
+
+    if (form.password.length < 6) {
       toast.error("Password must be at least 6 characters");
       return;
     }
-    dispatch(register({ name, email, password }));
+
+    dispatch(register(form));
   };
 
-  const handleGuestLogin = () => {
+  const handleGuest = () => {
     dispatch(guestLogin());
   };
 
-  const features = [
-    "Unlimited expense tracking",
-    "Detailed visual analytics",
-    "Custom categories",
-    "Secure cloud sync"
+  const benefits = [
+    "Secure personal finance dashboard",
+    "Track income, expenses and categories",
+    "Reports, CSV export and analytics",
+    "OTP reset and protected data",
   ];
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-white">
-      {/* Left Column - Form */}
-      <motion.div 
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 md:px-24 xl:px-32 relative z-10 overflow-y-auto py-10"
-      >
-        <div className="max-w-md w-full mx-auto my-auto">
-          <div className="mb-8 flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-              <Wallet className="text-white w-6 h-6" />
-            </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-700">
-              ExpenseTracker
-            </span>
-          </div>
+    <div className="min-h-dvh overflow-x-hidden bg-[#f8fbff] text-slate-950 dark:bg-slate-950 dark:text-white">
+      <div className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
+        <div className="relative hidden overflow-hidden bg-slate-950 lg:block">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.45),transparent_30%),radial-gradient(circle_at_80%_80%,rgba(59,130,246,0.22),transparent_30%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:54px_54px]" />
 
-          <h1 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Create an account</h1>
-          <p className="text-gray-500 mb-8">Start your journey to better financial health</p>
-
-          <form onSubmit={handleSignUp} className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="h-12 bg-gray-50/50 focus:bg-white transition-colors"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-12 bg-gray-50/50 focus:bg-white transition-colors"
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium text-gray-700">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                placeholder="Create a strong password (min 6 chars)"
-                onChange={(e) => setPassword(e.target.value)}
-                className="h-12 bg-gray-50/50 focus:bg-white transition-colors"
-                required
-              />
-            </div>
-            <Button 
-              type="submit" 
-              disabled={isLoading}
-              className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-all shadow-md hover:shadow-blue-600/25 flex items-center justify-center gap-2"
-            >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign Up"}
-            </Button>
-          </form>
-
-          <div className="mt-8">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-200" />
+          <div className="relative flex h-full items-center justify-center p-12">
+            <div className="auth-animate max-w-xl">
+              <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-black text-blue-200 backdrop-blur-xl">
+                <Sparkles className="h-4 w-4" />
+                Start your finance operating system
               </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">Not ready yet?</span>
+
+              <h2 className="text-5xl font-black leading-[0.96] tracking-[-0.07em] text-white xl:text-6xl">
+                Build better money habits with clarity.
+              </h2>
+
+              <p className="mt-7 text-lg font-medium leading-8 text-slate-300">
+                Record transactions, understand spending, export reports, and keep your financial data protected.
+              </p>
+
+              <div className="mt-10 space-y-4">
+                {benefits.map((benefit) => (
+                  <div key={benefit} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 p-4 text-white backdrop-blur-xl">
+                    <CheckCircle2 className="h-5 w-5 text-blue-300" />
+                    <span className="font-bold">{benefit}</span>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <Button 
-              type="button" 
-              variant="outline"
-              onClick={handleGuestLogin}
-              className="w-full h-12 mt-6 border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-medium flex items-center justify-center gap-2"
-            >
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              Try Guest Mode First
-            </Button>
           </div>
-
-          <p className="mt-8 text-center text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-blue-600 hover:text-blue-700 transition-colors">
-              Sign in
-            </Link>
-          </p>
         </div>
-      </motion.div>
 
-      {/* Right Column - Visuals */}
-      <div className="hidden lg:flex w-1/2 bg-slate-900 relative items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative z-10 max-w-lg p-8"
-        >
-          <div className="mb-8">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Take control of your wealth
-            </h2>
-            <p className="text-slate-300 text-lg">
-              Join thousands of users who have transformed their financial habits with ExpenseTracker.
+        <div className="flex items-center justify-center px-6 py-12">
+          <div className="w-full max-w-[430px]">
+            <Link to="/landing" className="auth-animate mb-10 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/25">
+                <Wallet className="h-5 w-5" />
+              </div>
+              <span className="text-xl font-black tracking-tight">ExpenseTracker</span>
+            </Link>
+
+            <div className="auth-animate">
+              <p className="mb-3 inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 dark:border-blue-500/25 dark:bg-blue-500/10 dark:text-blue-300">
+                Create account
+              </p>
+              <h1 className="text-3xl font-black tracking-[-0.055em] text-slate-950 sm:text-4xl dark:text-white">
+                Start tracking your money today
+              </h1>
+              <p className="mt-4 text-base font-medium leading-7 text-slate-500 dark:text-slate-400">
+                No billing. No pricing. Just a clean personal finance tracker.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="auth-animate mt-9 space-y-5">
+              <div>
+                <label className="mb-2 block text-xs font-black uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                  Name
+                </label>
+                <div className="relative">
+                  <User className="auth-left-icon absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    value={form.name}
+                    onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                    placeholder="Ayush Negi"
+                    className="app-input auth-input-with-icon"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-black uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                  Email
+                </label>
+                <div className="relative">
+                  <Mail className="auth-left-icon absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+                    placeholder="you@example.com"
+                    className="app-input auth-input-with-icon"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-black uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="auth-left-icon absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="password"
+                    value={form.password}
+                    onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
+                    placeholder="Minimum 6 characters"
+                    className="app-input auth-input-with-icon"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" disabled={isLoading} className="app-btn-primary auth-submit-btn w-full">
+                {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Create Account"}
+                {!isLoading && <ArrowRight className="h-5 w-5" />}
+              </button>
+            </form>
+
+            <div className="auth-animate mt-7">
+              <button onClick={handleGuest} className="app-btn-secondary auth-submit-btn w-full">
+                <Sparkles className="h-4 w-4 text-amber-500" />
+                Try Guest Mode First
+              </button>
+            </div>
+
+            <p className="auth-animate mt-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
+              Already have an account?{" "}
+              <Link to="/login" className="font-black text-blue-700 dark:text-blue-300">
+                Sign in
+              </Link>
             </p>
           </div>
-          
-          <div className="space-y-4">
-            {features.map((feature, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 + (i * 0.1) }}
-                className="flex items-center gap-3 text-slate-200"
-              >
-                <CheckCircle2 className="w-5 h-5 text-blue-400" />
-                <span className="font-medium">{feature}</span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default SignUp;

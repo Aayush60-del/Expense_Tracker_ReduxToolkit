@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import ExpenseReducer from "../features/ExpenseTrack/ExpenseSlice";
 import AuthReducer from "../features/Auth/AuthSlice";
 import CategoryReducer from "../features/Category/CategorySlice";
+import SettingsReducer from "../features/Settings/SettingsSlice";
 
 import {
   persistReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   expense: ExpenseReducer,
   auth: AuthReducer,
   category: CategoryReducer,
+  settings: SettingsReducer,
 });
 
 const persistedReducer = persistReducer(

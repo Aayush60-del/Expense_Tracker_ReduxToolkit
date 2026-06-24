@@ -70,3 +70,650 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 }
+
+/* ExpenseTracker Accent Themes */
+:root {
+  --accent-50: #eff6ff;
+  --accent-100: #dbeafe;
+  --accent-200: #bfdbfe;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+}
+
+:root[data-accent="emerald"] {
+  --accent-50: #ecfdf5;
+  --accent-100: #d1fae5;
+  --accent-200: #a7f3d0;
+  --accent-500: #10b981;
+  --accent-600: #059669;
+  --accent-700: #047857;
+}
+
+:root[data-accent="violet"] {
+  --accent-50: #f5f3ff;
+  --accent-100: #ede9fe;
+  --accent-200: #ddd6fe;
+  --accent-500: #8b5cf6;
+  --accent-600: #7c3aed;
+  --accent-700: #6d28d9;
+}
+
+:root[data-accent="rose"] {
+  --accent-50: #fff1f2;
+  --accent-100: #ffe4e6;
+  --accent-200: #fecdd3;
+  --accent-500: #f43f5e;
+  --accent-600: #e11d48;
+  --accent-700: #be123c;
+}
+
+:root[data-accent] .bg-blue-50 { background-color: var(--accent-50) !important; }
+:root[data-accent] .bg-blue-100 { background-color: var(--accent-100) !important; }
+:root[data-accent] .bg-blue-600 { background-color: var(--accent-600) !important; }
+:root[data-accent] .hover\:bg-blue-700:hover { background-color: var(--accent-700) !important; }
+
+:root[data-accent] .text-blue-500 { color: var(--accent-500) !important; }
+:root[data-accent] .text-blue-600 { color: var(--accent-600) !important; }
+:root[data-accent] .text-blue-700 { color: var(--accent-700) !important; }
+
+:root[data-accent] .border-blue-200 { border-color: var(--accent-200) !important; }
+:root[data-accent] .border-blue-500 { border-color: var(--accent-500) !important; }
+:root[data-accent] .ring-blue-500 { --tw-ring-color: var(--accent-500) !important; }
+:root[data-accent] .focus-visible\:ring-blue-500:focus-visible { --tw-ring-color: var(--accent-500) !important; }
+
+
+/* Proper app dark mode base */
+html {
+  background: #f8fafc;
+}
+
+html.dark {
+  background: #020617;
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: #020617;
+  color: #f8fafc;
+}
+
+html.dark #root {
+  background: #020617;
+  min-height: 100vh;
+}
+
+
+/* ExpenseTracker Global Dark Theme Fix START */
+
+/* Base */
+html.dark,
+html.dark body,
+html.dark #root {
+  background: #020617 !important;
+  color: #f8fafc !important;
+  color-scheme: dark;
+}
+
+/* Main page backgrounds */
+html.dark main,
+html.dark section,
+html.dark .bg-slate-50,
+html.dark .bg-gray-50,
+html.dark .bg-slate-100,
+html.dark .bg-gray-100,
+html.dark .bg-slate-50\/50,
+html.dark .bg-slate-50\/70,
+html.dark .bg-white\/50,
+html.dark .bg-white\/60,
+html.dark .bg-white\/70,
+html.dark .bg-white\/80,
+html.dark .bg-white\/90 {
+  background-color: #020617 !important;
+}
+
+/* Cards / panels */
+html.dark .bg-white,
+html.dark .bg-card,
+html.dark .shadow-sm,
+html.dark .shadow,
+html.dark .shadow-md,
+html.dark .shadow-lg {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Deep dashboard cards */
+html.dark .bg-slate-900,
+html.dark .bg-gray-900,
+html.dark .bg-black {
+  background-color: #0b1120 !important;
+  color: #f8fafc !important;
+}
+
+/* Borders and rings */
+html.dark .border,
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .ring-1 {
+  border-color: #1e293b !important;
+  --tw-ring-color: rgba(51, 65, 85, 0.7) !important;
+}
+
+/* Primary text */
+html.dark .text-black,
+html.dark .text-slate-950,
+html.dark .text-slate-900,
+html.dark .text-gray-950,
+html.dark .text-gray-900 {
+  color: #f8fafc !important;
+}
+
+/* Secondary text */
+html.dark .text-slate-800,
+html.dark .text-slate-700,
+html.dark .text-gray-800,
+html.dark .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+/* Muted text */
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* Inputs, selects, textareas */
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background-color: #020617 !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+html.dark input:disabled,
+html.dark select:disabled,
+html.dark textarea:disabled {
+  background-color: #0f172a !important;
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* Tables / rows / list items */
+html.dark table,
+html.dark thead,
+html.dark tbody,
+html.dark tr {
+  background-color: transparent !important;
+  color: #f8fafc !important;
+}
+
+html.dark th,
+html.dark td {
+  border-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+/* Hover states */
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-gray-50:hover,
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-gray-100:hover {
+  background-color: #1e293b !important;
+}
+
+/* Buttons should stay readable */
+html.dark button {
+  color: inherit;
+}
+
+html.dark .bg-blue-600,
+html.dark .hover\:bg-blue-700:hover {
+  color: #ffffff !important;
+}
+
+/* Recharts / charts */
+html.dark .recharts-text,
+html.dark .recharts-cartesian-axis-tick-value,
+html.dark .recharts-legend-item-text {
+  fill: #cbd5e1 !important;
+  color: #cbd5e1 !important;
+}
+
+html.dark .recharts-cartesian-grid line {
+  stroke: #334155 !important;
+}
+
+html.dark .recharts-tooltip-wrapper,
+html.dark .recharts-default-tooltip {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+/* Toast readable in dark */
+html.dark .Toastify__toast {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Keep blue sidebar premium */
+html.dark aside,
+html.dark nav.bg-blue-600,
+html.dark .bg-blue-600 {
+  color: #ffffff;
+}
+
+/* ExpenseTracker Global Dark Theme Fix END */
+
+
+/* Premium GSAP Landing Page START */
+.landing-shell {
+  scroll-behavior: smooth;
+}
+
+.landing-grid {
+  background-image:
+    linear-gradient(to right, rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+.reveal-word {
+  display: inline-block;
+  transform: translateY(0);
+  will-change: transform, opacity;
+}
+
+.hero-line {
+  vertical-align: top;
+}
+
+.feature-card {
+  will-change: transform, opacity;
+}
+
+.dashboard-mockup {
+  will-change: transform;
+}
+
+.analytics-strip {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-shell *,
+  .landing-shell *::before,
+  .landing-shell *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* Premium GSAP Landing Page END */
+
+
+/* Advanced GSAP Landing Motion START */
+.gsap-split {
+  overflow: hidden;
+}
+
+.gsap-word {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity, filter;
+}
+
+.dashboard-preview,
+.feature-card,
+.workflow-card,
+.analytics-panel,
+.stat-card {
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+header nav {
+  transition: height 220ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease;
+}
+
+header nav.nav-scrolled {
+  height: 62px;
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(148, 163, 184, 0.45) !important;
+  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.12) !important;
+}
+
+.analytics-panel {
+  transform-origin: center center;
+}
+
+@media (min-width: 1024px) {
+  #analytics,
+  #workflow {
+    min-height: 100vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gsap-word,
+  .dashboard-preview,
+  .feature-card,
+  .workflow-card,
+  .analytics-panel,
+  .stat-card {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
+/* Advanced GSAP Landing Motion END */
+
+
+/* Premium Internal App Shell START */
+.app-card {
+  border: 1px solid rgb(226 232 240);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.05);
+}
+
+.dark .app-card {
+  border-color: rgb(30 41 59);
+  background: rgb(15 23 42);
+}
+
+.app-page-title {
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  color: rgb(2 6 23);
+}
+
+.dark .app-page-title {
+  color: white;
+}
+
+.app-page-subtitle {
+  margin-top: 8px;
+  color: rgb(71 85 105);
+  font-weight: 500;
+}
+
+.dark .app-page-subtitle {
+  color: rgb(148 163 184);
+}
+
+.app-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  background: rgb(29 78 216);
+  color: white;
+  font-weight: 900;
+  padding: 10px 18px;
+  transition: 180ms ease;
+  box-shadow: 0 12px 30px rgba(29, 78, 216, 0.18);
+}
+
+.app-btn-primary:hover {
+  transform: translateY(-1px);
+  background: rgb(30 64 175);
+}
+
+.app-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  border: 1px solid rgb(226 232 240);
+  background: white;
+  color: rgb(15 23 42);
+  font-weight: 800;
+  padding: 10px 18px;
+  transition: 180ms ease;
+}
+
+.app-btn-secondary:hover {
+  border-color: rgb(191 219 254);
+  color: rgb(29 78 216);
+}
+
+.dark .app-btn-secondary {
+  border-color: rgb(51 65 85);
+  background: rgb(15 23 42);
+  color: rgb(226 232 240);
+}
+
+.app-input {
+  height: 46px;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgb(226 232 240);
+  background: rgb(248 250 252);
+  padding: 0 14px;
+  font-weight: 500;
+  color: rgb(15 23 42);
+  outline: none;
+}
+
+.app-input:focus {
+  border-color: rgb(147 197 253);
+  background: white;
+  box-shadow: 0 0 0 4px rgb(219 234 254);
+}
+
+.dark .app-input {
+  border-color: rgb(51 65 85);
+  background: rgb(2 6 23);
+  color: white;
+}
+
+.dark .app-input:focus {
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+/* Premium Internal App Shell END */
+
+
+/* Final SaaS Polish START */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+}
+
+.app-card {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.app-card:hover {
+  border-color: rgb(191 219 254);
+}
+
+.dark .app-card:hover {
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+.app-btn-primary:disabled,
+.app-btn-secondary:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none !important;
+}
+
+.app-input::placeholder {
+  color: rgb(148 163 184);
+}
+
+.dark .app-input::placeholder {
+  color: rgb(100 116 139);
+}
+
+.recharts-wrapper * {
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .app-page-title {
+    font-size: 28px;
+  }
+
+  .app-card {
+    border-radius: 18px;
+  }
+}
+
+@media print {
+  body,
+  html,
+  #root {
+    background: white !important;
+    color: black !important;
+  }
+
+  aside,
+  header,
+  nav,
+  button,
+  .Toastify,
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  .app-card {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+    break-inside: avoid;
+  }
+}
+/* Final SaaS Polish END */
+
+
+/* Auth Input Icon Fix START */
+.auth-input-with-icon {
+  height: 52px !important;
+  padding-left: 48px !important;
+  padding-right: 14px !important;
+}
+
+.auth-submit-btn {
+  height: 52px !important;
+}
+
+.auth-left-icon {
+  pointer-events: none;
+  z-index: 2;
+}
+/* Auth Input Icon Fix END */
+
+
+/* Responsive Audit Patch START */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+.responsive-chart {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.responsive-chart .recharts-wrapper,
+.responsive-chart .recharts-surface {
+  max-width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .app-page-title {
+    font-size: 26px !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  .app-page-subtitle {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  .app-card {
+    border-radius: 18px !important;
+  }
+
+  .app-btn-primary,
+  .app-btn-secondary {
+    min-height: 44px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .app-input {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  table {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-page-title {
+    font-size: 24px !important;
+  }
+
+  .app-btn-primary,
+  .app-btn-secondary {
+    font-size: 13px;
+  }
+}
+/* Responsive Audit Patch END */
