@@ -67,6 +67,23 @@ app.use(
 );
 
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "ExpenseTracker API is running",
+    health: "/api/health",
+  });
+});
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server healthy",
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.use(express.urlencoded({ extended: false }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
