@@ -1,3 +1,4 @@
+import RouteThemeGuard from "./components/RouteThemeGuard";
 import { RouterProvider, createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";

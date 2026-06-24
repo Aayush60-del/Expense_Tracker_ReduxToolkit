@@ -717,3 +717,21 @@ textarea {
   }
 }
 /* Responsive Audit Patch END */
+
+
+/* Public Pages Theme Isolation START */
+body.public-light-route {
+  background: #f8fbff !important;
+  color: #020617 !important;
+}
+
+body.public-light-route * {
+  color-scheme: light;
+}
+
+body.public-light-route input,
+body.public-light-route textarea,
+body.public-light-route select {
+  color-scheme: light;
+}
+/* Public Pages Theme Isolation END */
