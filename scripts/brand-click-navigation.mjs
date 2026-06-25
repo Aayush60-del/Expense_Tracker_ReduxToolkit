@@ -1,4 +1,6 @@
-import { Bell, Menu, Search, Wallet } from "lucide-react";
+﻿import fs from "fs";
+
+const topBar = `import { Bell, Menu, Search, Wallet } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -51,7 +53,7 @@ const TopBar = ({ onMenuClick }) => {
             Expense overview
           </p>
           <h1 className="truncate text-lg font-black text-slate-950 dark:text-white sm:text-xl">
-            Welcome back{user?.name ? `, ${user.name.split(" ")[0]}` : ""}
+            Welcome back{user?.name ? \`, \${user.name.split(" ")[0]}\` : ""}
           </h1>
         </div>
 
@@ -77,3 +79,67 @@ const TopBar = ({ onMenuClick }) => {
 };
 
 export default TopBar;
+`;
+
+fs.writeFileSync("src/components/layout/TopBar.jsx", topBar, "utf8");
+
+const drawerFile = "src/components/layout/MobileDrawer.jsx";
+
+if (fs.existsSync(drawerFile)) {
+  let drawer = fs.readFileSync(drawerFile, "utf8");
+
+  drawer = drawer.replace(
+    `const location = useLocation();
+  const navigate = useNavigate();`,
+    `const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleBrandClick = () => {
+    onClose();
+
+    if (location.pathname === "/") {
+      navigate("/landing");
+    } else {
+      navigate("/");
+    }
+  };`
+  );
+
+  drawer = drawer.replace(
+    `<div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/25">
+              <Wallet className="h-5 w-5" />
+            </div>
+
+            <div>
+              <p className="text-base font-black text-slate-950 dark:text-white">
+                ExpenseTracker
+              </p>
+              <p className="text-xs font-bold text-slate-400">Finance control</p>
+            </div>
+          </div>`,
+    `<button
+            type="button"
+            onClick={handleBrandClick}
+            className="flex items-center gap-3 rounded-2xl text-left transition hover:opacity-80"
+            title={location.pathname === "/" ? "Go to landing page" : "Go to dashboard"}
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/25">
+              <Wallet className="h-5 w-5" />
+            </div>
+
+            <div>
+              <p className="text-base font-black text-slate-950 dark:text-white">
+                ExpenseTracker
+              </p>
+              <p className="text-xs font-bold text-slate-400">
+                {location.pathname === "/" ? "Back to landing" : "Back to dashboard"}
+              </p>
+            </div>
+          </button>`
+  );
+
+  fs.writeFileSync(drawerFile, drawer, "utf8");
+}
+
+console.log("✅ ExpenseTracker brand click behavior added.");

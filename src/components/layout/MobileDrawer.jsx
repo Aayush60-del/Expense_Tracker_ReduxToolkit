@@ -25,6 +25,16 @@ const navItems = [
 const MobileDrawer = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const handleBrandClick = () => {
+    onClose();
+
+    if (location.pathname === "/") {
+      navigate("/landing");
+    } else {
+      navigate("/");
+    }
+  };
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth || {});
 
@@ -46,7 +56,12 @@ const MobileDrawer = ({ onClose }) => {
 
       <aside className="absolute left-0 top-0 z-[1000000] flex h-dvh w-[86vw] max-w-[340px] flex-col border-r border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-950">
         <div className="flex h-[72px] items-center justify-between border-b border-slate-200 px-5 dark:border-slate-800">
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={handleBrandClick}
+            className="flex items-center gap-3 rounded-2xl text-left transition hover:opacity-80"
+            title={location.pathname === "/" ? "Go to landing page" : "Go to dashboard"}
+          >
             <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/25">
               <Wallet className="h-5 w-5" />
             </div>
@@ -55,9 +70,11 @@ const MobileDrawer = ({ onClose }) => {
               <p className="text-base font-black text-slate-950 dark:text-white">
                 ExpenseTracker
               </p>
-              <p className="text-xs font-bold text-slate-400">Finance control</p>
+              <p className="text-xs font-bold text-slate-400">
+                {location.pathname === "/" ? "Back to landing" : "Back to dashboard"}
+              </p>
             </div>
-          </div>
+          </button>
 
           <button
             type="button"
