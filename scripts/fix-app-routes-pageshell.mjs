@@ -1,4 +1,6 @@
-import RouteThemeGuard from "./components/RouteThemeGuard";
+﻿import fs from "fs";
+
+const app = `import RouteThemeGuard from "./components/RouteThemeGuard";
 import { RouterProvider, createBrowserRouter, Outlet, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -101,3 +103,8 @@ function App() {
 }
 
 export default App;
+`;
+
+fs.writeFileSync("src/App.jsx", app, "utf8");
+
+console.log("✅ App.jsx fixed: internal routes now use PageShell.");
