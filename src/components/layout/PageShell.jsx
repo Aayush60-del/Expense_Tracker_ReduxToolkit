@@ -27,6 +27,7 @@ const PageShell = ({ children }) => {
   useEffect(() => {
     const syncTheme = () => {
       const theme = getStoredTheme();
+
       setThemeState({
         theme,
         resolvedTheme: getResolvedTheme(theme),
@@ -78,7 +79,10 @@ const PageShell = ({ children }) => {
       </div>
 
       <MobileBottomNav />
-      <MobileDrawer open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+
+      {mobileMenuOpen && (
+        <MobileDrawer onClose={() => setMobileMenuOpen(false)} />
+      )}
     </div>
   );
 };

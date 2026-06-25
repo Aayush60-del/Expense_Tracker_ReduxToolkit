@@ -24,6 +24,7 @@ import GuestRoute from "./components/GuestRoute";
 import { fetchTransactions, fetchStats } from "./features/ExpenseTrack/ExpenseSlice";
 import { fetchCategories } from "./features/Category/CategorySlice";
 
+import PageShell from "./components/layout/PageShell";
 function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, guestMode } = useSelector((state) => state.auth);

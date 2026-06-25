@@ -1,83 +1,45 @@
-import { Bell, Menu, PlusCircle, Search } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Bell, Menu, Search } from "lucide-react";
 import { useSelector } from "react-redux";
-
-const pageTitleMap = {
-  "/": "Dashboard",
-  "/transactions": "Transactions",
-  "/addtransaction": "Add Transaction",
-  "/categories": "Categories",
-  "/report": "Reports",
-  "/settings": "Settings",
-};
-
-const getPageTitle = (pathname) => {
-  if (pageTitleMap[pathname]) return pageTitleMap[pathname];
-
-  const found = Object.entries(pageTitleMap).find(([path]) => {
-    if (path === "/") return false;
-    return pathname.startsWith(path);
-  });
-
-  return found?.[1] || "ExpenseTracker";
-};
 
 const TopBar = ({ onMenuClick }) => {
   const { user } = useSelector((state) => state.auth || {});
-  const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/90">
-      <div className="flex h-[64px] items-center justify-between gap-3 px-3 sm:h-[70px] sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3 lg:hidden">
-          <button
-            type="button"
-            onClick={onMenuClick}
-            aria-label="Open sidebar menu"
-            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/20 transition active:scale-95"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+    <header className="sticky top-0 z-[1000] border-b border-slate-200 bg-white/90 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/90">
+      <div className="mx-auto flex h-[70px] w-full max-w-[1180px] items-center gap-3 px-3 sm:px-5 md:px-6 lg:px-8">
+        <button
+          type="button"
+          onClick={onMenuClick}
+          aria-label="Open sidebar menu"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 active:scale-95 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 lg:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
 
-          <div>
-            <p className="text-sm font-black text-slate-950 dark:text-white">
-              {getPageTitle(location.pathname)}
-            </p>
-            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-              ExpenseTracker
-            </p>
-          </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+            Expense overview
+          </p>
+          <h1 className="truncate text-lg font-black text-slate-950 dark:text-white sm:text-xl">
+            Welcome back{user?.name ? `, ${user.name.split(" ")[0]}` : ""}
+          </h1>
         </div>
 
-        <div className="relative hidden w-full max-w-xl md:block">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search transactions, categories..."
-            className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-50/70 pl-12 pr-4 text-sm font-medium text-slate-700 outline-none transition focus:border-blue-300 focus:bg-white focus:ring-4 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-blue-500/10"
-          />
+        <div className="hidden h-11 min-w-[260px] items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 text-slate-400 dark:border-slate-800 dark:bg-slate-900 md:flex">
+          <Search className="h-4 w-4" />
+          <span className="text-sm font-medium">Search transactions...</span>
         </div>
 
-        <div className="flex flex-1 items-center justify-end gap-3">
-          <button className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-700 sm:h-11 sm:w-11 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-            <Bell className="h-5 w-5" />
-            <span className="absolute right-2.5 top-2.5 h-2.5 w-2.5 rounded-full bg-blue-600 ring-2 ring-white dark:ring-slate-900" />
-          </button>
+        <button
+          type="button"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+          aria-label="Notifications"
+        >
+          <Bell className="h-5 w-5" />
+        </button>
 
-          <Link
-            to="/addtransaction"
-            className="hidden h-11 items-center gap-2 rounded-2xl bg-blue-700 px-5 text-sm font-black text-white shadow-lg shadow-blue-700/20 transition hover:-translate-y-0.5 hover:bg-blue-800 sm:inline-flex"
-          >
-            <PlusCircle className="h-4 w-4" />
-            New
-          </Link>
-
-          <Link
-            to="/settings"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-sm font-black text-blue-700 ring-1 ring-blue-100 transition hover:bg-blue-100 sm:h-11 sm:w-11 dark:bg-blue-500/15 dark:text-blue-200 dark:ring-blue-400/20"
-          >
-            {user?.name?.charAt(0)?.toUpperCase() || "U"}
-          </Link>
+        <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-700 text-sm font-black text-white sm:flex">
+          {user?.name?.charAt(0)?.toUpperCase() || "U"}
         </div>
       </div>
     </header>

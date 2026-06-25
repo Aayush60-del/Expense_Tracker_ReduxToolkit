@@ -22,7 +22,7 @@ const navItems = [
   { label: "Settings", path: "/settings", icon: Settings },
 ];
 
-const MobileDrawer = ({ open, onClose }) => {
+const MobileDrawer = ({ onClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,37 +36,27 @@ const MobileDrawer = ({ open, onClose }) => {
   };
 
   return (
-    <div
-      className="fixed inset-0 z-[99999] lg:hidden"
-      style={{
-        pointerEvents: open ? "auto" : "none",
-        visibility: open ? "visible" : "hidden",
-      }}
-    >
+    <div className="fixed inset-0 z-[999999] lg:hidden">
       <button
         type="button"
         aria-label="Close sidebar overlay"
         onClick={onClose}
-        className="absolute inset-0 z-0 bg-slate-950/50 backdrop-blur-sm transition-opacity duration-200"
-        style={{
-          opacity: open ? 1 : 0,
-        }}
+        className="absolute inset-0 bg-slate-950/55 backdrop-blur-sm"
       />
 
-      <aside
-        className="absolute left-0 top-0 z-10 flex h-dvh w-[84vw] max-w-[330px] flex-col border-r border-slate-200 bg-white shadow-2xl transition-transform duration-300 ease-out dark:border-slate-800 dark:bg-slate-950"
-        style={{
-          transform: open ? "translateX(0)" : "translateX(-105%)",
-        }}
-      >
-        <div className="flex h-[70px] items-center justify-between border-b border-slate-200 px-5 dark:border-slate-800">
+      <aside className="absolute left-0 top-0 z-[1000000] flex h-dvh w-[86vw] max-w-[340px] flex-col border-r border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-950">
+        <div className="flex h-[72px] items-center justify-between border-b border-slate-200 px-5 dark:border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/20">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/25">
               <Wallet className="h-5 w-5" />
             </div>
-            <span className="text-lg font-black tracking-tight text-slate-950 dark:text-white">
-              ExpenseTracker
-            </span>
+
+            <div>
+              <p className="text-base font-black text-slate-950 dark:text-white">
+                ExpenseTracker
+              </p>
+              <p className="text-xs font-bold text-slate-400">Finance control</p>
+            </div>
           </div>
 
           <button
@@ -105,10 +95,10 @@ const MobileDrawer = ({ open, onClose }) => {
           })}
         </nav>
 
-        <div className="p-3">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+        <div className="border-t border-slate-200 p-3 dark:border-slate-800">
+          <div className="rounded-2xl bg-slate-50 p-3 dark:bg-slate-900">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-700 text-sm font-black text-white">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-700 text-sm font-black text-white">
                 {user?.name?.charAt(0)?.toUpperCase() || "U"}
               </div>
 
@@ -124,7 +114,7 @@ const MobileDrawer = ({ open, onClose }) => {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-white hover:text-red-600 dark:hover:bg-slate-800"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition hover:bg-white hover:text-red-600 dark:hover:bg-slate-800"
                 title="Logout"
               >
                 <LogOut className="h-4 w-4" />
