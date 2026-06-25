@@ -1,45 +1,97 @@
-
-export const THEME_KEY = "expense-theme";
+const THEME_KEY = "expense_tracker_theme";
 
 export const normalizeTheme = (theme) => {
-  return ["light", "dark", "system"].includes(theme) ? theme : "system";
-};
-
-export const getSystemTheme = () => {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-};
-
-export const applyAppTheme = (theme = "system") => {
-  if (typeof window === "undefined") return "system";
-
-  const selectedTheme = normalizeTheme(theme);
-  const resolvedTheme = selectedTheme === "system" ? getSystemTheme() : selectedTheme;
-
-  localStorage.setItem(THEME_KEY, selectedTheme);
-  document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
-  document.documentElement.removeAttribute("data-accent");
-  document.body.classList.remove("dark");
-
-  return selectedTheme;
+  if (["light", "dark", "system"].includes(theme)) return theme;
+  return "system";
 };
 
 export const getStoredTheme = () => {
-  if (typeof window === "undefined") return "system";
-  return normalizeTheme(localStorage.getItem(THEME_KEY) || "system");
+  try {
+    return normalizeTheme(localStorage.getItem(THEME_KEY) || "system");
+  } catch {
+    return "system";
+  }
 };
 
+export const getResolvedTheme = (theme = getStoredTheme()) => {
+  const normalized = normalizeTheme(theme);
+
+  if (normalized === "system") {
+    return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ? "dark" : "light";
+  }
+
+  return normalized;
+};
+
+export const applyAppTheme = (theme) => {
+  const normalized = normalizeTheme(theme);
+
+  try {
+    localStorage.setItem(THEME_KEY, normalized);
+  } catch {}
+
+  // Important:
+  // Do NOT add/remove "dark" on documentElement/html.
+  // Theme must affect only internal app shell, not landing/auth pages.
+  document.documentElement.classList.remove("dark");
+
+  window.dispatchEvent(
+    new CustomEvent("expense-theme-change", {
+      detail: {
+        theme: normalized,
+        resolvedTheme: getResolvedTheme(normalized),
+      },
+    })
+  );
+
+  return normalized;
+};
+
+
 export const applyStoredTheme = () => {
-  return applyAppTheme(getStoredTheme());
+  // Compatibility for main.jsx.
+  // Do not apply global html.dark because landing/auth pages must stay light.
+  document.documentElement.classList.remove("dark");
+
+  const theme = getStoredTheme();
+
+  window.dispatchEvent(
+    new CustomEvent("expense-theme-change", {
+      detail: {
+        theme,
+        resolvedTheme: getResolvedTheme(theme),
+      },
+    })
+  );
+
+  return theme;
 };
 
 export const subscribeToSystemTheme = () => {
-  if (typeof window === "undefined") return;
+  // Compatibility for main.jsx.
+  // Only notify internal PageShell when system theme changes.
+  const media = window.matchMedia?.("(prefers-color-scheme: dark)");
 
-  const media = window.matchMedia("(prefers-color-scheme: dark)");
+  if (!media) return () => {};
+
   const handler = () => {
-    if (getStoredTheme() === "system") applyAppTheme("system");
+    const theme = getStoredTheme();
+
+    window.dispatchEvent(
+      new CustomEvent("expense-theme-change", {
+        detail: {
+          theme,
+          resolvedTheme: getResolvedTheme(theme),
+        },
+      })
+    );
+
+    document.documentElement.classList.remove("dark");
   };
 
   media.addEventListener?.("change", handler);
+
+  return () => {
+    media.removeEventListener?.("change", handler);
+  };
 };

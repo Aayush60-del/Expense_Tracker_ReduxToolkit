@@ -861,3 +861,26 @@ body.public-light-route select {
   }
 }
 /* Custom Finance Illustration END */
+
+
+/* Strict Public Theme Lock START */
+body.public-light-route {
+  background: #f8fbff !important;
+  color: #020617 !important;
+}
+
+body.public-light-route,
+body.public-light-route * {
+  color-scheme: light;
+}
+
+body.public-light-route input,
+body.public-light-route textarea,
+body.public-light-route select {
+  color-scheme: light;
+}
+
+body.public-light-route .dark {
+  color-scheme: light;
+}
+/* Strict Public Theme Lock END */

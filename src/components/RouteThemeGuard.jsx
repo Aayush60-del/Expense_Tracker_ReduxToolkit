@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { applyAppTheme, getStoredTheme } from "../lib/theme";
 
 const publicRoutes = [
   "/landing",
@@ -19,16 +18,15 @@ const RouteThemeGuard = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const publicPage = isPublicRoute(location.pathname);
+    // Never allow global html.dark.
+    // Public pages stay light. Internal app pages get dark only through PageShell.
+    document.documentElement.classList.remove("dark");
 
-    if (publicPage) {
-      document.documentElement.classList.remove("dark");
+    if (isPublicRoute(location.pathname)) {
       document.body.classList.add("public-light-route");
-      return;
+    } else {
+      document.body.classList.remove("public-light-route");
     }
-
-    document.body.classList.remove("public-light-route");
-    applyAppTheme(getStoredTheme());
   }, [location.pathname]);
 
   return null;

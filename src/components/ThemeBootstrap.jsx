@@ -1,11 +1,10 @@
-
 import { useEffect } from "react";
-import { applyStoredTheme, subscribeToSystemTheme } from "../lib/theme";
 
 const ThemeBootstrap = () => {
   useEffect(() => {
-    applyStoredTheme();
-    subscribeToSystemTheme();
+    // Public pages should never inherit global dark mode.
+    // Internal pages handle dark mode inside PageShell only.
+    document.documentElement.classList.remove("dark");
   }, []);
 
   return null;
