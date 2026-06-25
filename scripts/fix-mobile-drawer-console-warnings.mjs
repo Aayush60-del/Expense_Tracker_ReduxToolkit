@@ -1,4 +1,8 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+﻿import fs from "fs";
+
+fs.mkdirSync("src/components/layout", { recursive: true });
+
+const drawer = `import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BarChart3,
@@ -92,11 +96,11 @@ const MobileDrawer = ({ open, onClose }) => {
                 key={item.path}
                 to={item.path}
                 onClick={onClose}
-                className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition ${
+                className={\`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition \${
                   active
                     ? "bg-blue-50 text-blue-700 shadow-sm dark:bg-blue-500/15 dark:text-blue-200"
                     : "text-slate-600 hover:bg-slate-50 hover:text-slate-950 dark:text-slate-400 dark:hover:bg-slate-900 dark:hover:text-white"
-                }`}
+                }\`}
               >
                 <Icon className="h-5 w-5" />
                 {item.label}
@@ -138,3 +142,109 @@ const MobileDrawer = ({ open, onClose }) => {
 };
 
 export default MobileDrawer;
+`;
+
+fs.writeFileSync("src/components/layout/MobileDrawer.jsx", drawer, "utf8");
+
+// Fix password autocomplete warnings
+const autocompleteFixes = [
+  ["src/pages/Login.jsx", [
+    [`type="password"\n                    value={form.password}`, `type="password"\n                    autoComplete="current-password"\n                    value={form.password}`],
+  ]],
+  ["src/pages/SignUp.jsx", [
+    [`type="password"\n                    value={form.password}`, `type="password"\n                    autoComplete="new-password"\n                    value={form.password}`],
+  ]],
+  ["src/pages/ResetPassword.jsx", [
+    [`type="password"\n                  value={form.newPassword}`, `type="password"\n                  autoComplete="new-password"\n                  value={form.newPassword}`],
+    [`type="password"\n                  value={form.confirmPassword}`, `type="password"\n                  autoComplete="new-password"\n                  value={form.confirmPassword}`],
+  ]],
+  ["src/components/Settings.jsx", [
+    [`type="password"\n                    value={security.currentPassword}`, `type="password"\n                    autoComplete="current-password"\n                    value={security.currentPassword}`],
+    [`type="password"\n                    value={security.newPassword}`, `type="password"\n                    autoComplete="new-password"\n                    value={security.newPassword}`],
+  ]],
+];
+
+for (const [file, fixes] of autocompleteFixes) {
+  if (!fs.existsSync(file)) continue;
+  let code = fs.readFileSync(file, "utf8");
+
+  for (const [from, to] of fixes) {
+    if (!code.includes("autoComplete") && code.includes(from)) {
+      code = code.replace(from, to);
+    } else if (code.includes(from) && !code.includes(to)) {
+      code = code.replace(from, to);
+    }
+  }
+
+  fs.writeFileSync(file, code, "utf8");
+}
+
+// Fix Recharts width/height warning by adding min dimensions
+const chartFiles = ["src/components/DashBoard.jsx", "src/components/Reports.jsx"];
+
+for (const file of chartFiles) {
+  if (!fs.existsSync(file)) continue;
+
+  let code = fs.readFileSync(file, "utf8");
+
+  code = code.replaceAll(
+    `<ResponsiveContainer width="100%" height="100%">`,
+    `<ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>`
+  );
+
+  code = code.replaceAll(
+    `className="responsive-chart h-[280px] sm:h-[315px]"`,
+    `className="responsive-chart min-w-0 h-[280px] sm:h-[315px]"`
+  );
+
+  code = code.replaceAll(
+    `className="responsive-chart h-[280px] sm:h-[350px]"`,
+    `className="responsive-chart min-w-0 h-[280px] sm:h-[350px]"`
+  );
+
+  code = code.replaceAll(
+    `className="responsive-chart h-[260px] sm:h-[300px]"`,
+    `className="responsive-chart min-w-0 h-[260px] sm:h-[300px]"`
+  );
+
+  code = code.replaceAll(
+    `className="responsive-chart h-[220px] sm:h-[245px]"`,
+    `className="responsive-chart min-w-0 h-[220px] sm:h-[245px]"`
+  );
+
+  code = code.replaceAll(
+    `className="responsive-chart h-[220px] sm:h-[240px]"`,
+    `className="responsive-chart min-w-0 h-[220px] sm:h-[240px]"`
+  );
+
+  fs.writeFileSync(file, code, "utf8");
+}
+
+let css = fs.existsSync("src/index.css") ? fs.readFileSync("src/index.css", "utf8") : "";
+
+if (!css.includes("/* Mobile Drawer and Chart Stability START */")) {
+  css += `
+
+/* Mobile Drawer and Chart Stability START */
+.responsive-chart {
+  min-width: 1px;
+  min-height: 220px;
+}
+
+.responsive-chart > div {
+  min-width: 1px;
+  min-height: 1px;
+}
+
+@media (max-width: 640px) {
+  .responsive-chart {
+    min-height: 220px;
+  }
+}
+/* Mobile Drawer and Chart Stability END */
+`;
+}
+
+fs.writeFileSync("src/index.css", css, "utf8");
+
+console.log("✅ Mobile drawer, autocomplete warnings, and chart warnings fixed.");

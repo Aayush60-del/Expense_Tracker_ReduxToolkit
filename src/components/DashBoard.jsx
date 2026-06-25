@@ -220,8 +220,8 @@ const Dashboard = () => {
             <BarChart3 className="h-5 w-5 text-blue-700 dark:text-blue-300" />
           </div>
 
-          <div className="responsive-chart h-[280px] sm:h-[315px]">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="responsive-chart min-w-0 h-[280px] sm:h-[315px]">
+            <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
               <AreaChart data={monthlyData}>
                 <defs>
                   <linearGradient id="incomeFill" x1="0" y1="0" x2="0" y2="1">
@@ -256,8 +256,8 @@ const Dashboard = () => {
 
           {categoryData.length ? (
             <>
-              <div className="responsive-chart h-[220px] sm:h-[245px]">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="responsive-chart min-w-0 h-[220px] sm:h-[245px]">
+                <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
                   <PieChart>
                     <Pie
                       data={categoryData}

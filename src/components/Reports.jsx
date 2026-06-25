@@ -247,7 +247,7 @@ const Reports = () => {
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Last 6 months</p>
 
           <div className="mt-6 h-[350px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
               <BarChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="4 4" vertical={false} />
                 <XAxis dataKey="month" tickLine={false} axisLine={false} />
@@ -272,8 +272,8 @@ const Reports = () => {
 
           {categoryData.length ? (
             <>
-              <div className="responsive-chart h-[220px] sm:h-[240px]">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="responsive-chart min-w-0 h-[220px] sm:h-[240px]">
+                <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
                   <PieChart>
                     <Pie
                       data={categoryData}
@@ -325,7 +325,7 @@ const Reports = () => {
         </p>
 
         <div className="mt-6 h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
             <AreaChart data={monthlyData}>
               <defs>
                 <linearGradient id="savingsFill" x1="0" y1="0" x2="0" y2="1">

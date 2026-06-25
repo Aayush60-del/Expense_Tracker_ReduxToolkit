@@ -884,3 +884,22 @@ body.public-light-route .dark {
   color-scheme: light;
 }
 /* Strict Public Theme Lock END */
+
+
+/* Mobile Drawer and Chart Stability START */
+.responsive-chart {
+  min-width: 1px;
+  min-height: 220px;
+}
+
+.responsive-chart > div {
+  min-width: 1px;
+  min-height: 1px;
+}
+
+@media (max-width: 640px) {
+  .responsive-chart {
+    min-height: 220px;
+  }
+}
+/* Mobile Drawer and Chart Stability END */
