@@ -1,3 +1,4 @@
+import FinanceHeroIllustration from "../components/FinanceHeroIllustration";
 ﻿import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAdvancedLandingGSAP } from "../hooks/useAdvancedLandingGSAP";
@@ -384,7 +385,7 @@ const LandingPage = () => {
           </div>
 
           <div className="relative mx-auto -mb-16 max-w-7xl px-5">
-            <DashboardMockup />
+            <FinanceHeroIllustration />
           </div>
         </section>
 
