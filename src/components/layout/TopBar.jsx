@@ -12,15 +12,14 @@ const pageTitleMap = {
 };
 
 const getPageTitle = (pathname) => {
-  const exact = pageTitleMap[pathname];
-  if (exact) return exact;
+  if (pageTitleMap[pathname]) return pageTitleMap[pathname];
 
-  const match = Object.entries(pageTitleMap).find(([path]) => {
+  const found = Object.entries(pageTitleMap).find(([path]) => {
     if (path === "/") return false;
     return pathname.startsWith(path);
   });
 
-  return match?.[1] || "ExpenseTracker";
+  return found?.[1] || "ExpenseTracker";
 };
 
 const TopBar = ({ onMenuClick }) => {
@@ -28,13 +27,13 @@ const TopBar = ({ onMenuClick }) => {
   const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/85 backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/85">
+    <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur-2xl dark:border-slate-800 dark:bg-slate-950/90">
       <div className="flex h-[64px] items-center justify-between gap-3 px-3 sm:h-[70px] sm:px-6 lg:px-8">
         <div className="flex items-center gap-3 lg:hidden">
           <button
             type="button"
             onClick={onMenuClick}
-            aria-label="Open menu"
+            aria-label="Open sidebar menu"
             className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-700/20 transition active:scale-95"
           >
             <Menu className="h-5 w-5" />

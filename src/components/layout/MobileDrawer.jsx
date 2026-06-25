@@ -28,7 +28,7 @@ const MobileDrawer = ({ open, onClose }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth || {});
 
-  const onLogout = () => {
+  const handleLogout = () => {
     dispatch(logout());
     dispatch(reset());
     onClose();
@@ -37,21 +37,21 @@ const MobileDrawer = ({ open, onClose }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[70] lg:hidden ${
+      className={`fixed inset-0 z-[9999] lg:hidden ${
         open ? "pointer-events-auto" : "pointer-events-none"
       }`}
     >
       <button
         type="button"
-        aria-label="Close menu overlay"
+        aria-label="Close sidebar overlay"
         onClick={onClose}
-        className={`absolute inset-0 bg-slate-950/45 backdrop-blur-sm transition-opacity duration-200 ${
+        className={`absolute inset-0 bg-slate-950/50 backdrop-blur-sm transition-opacity duration-200 ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
 
       <aside
-        className={`absolute left-0 top-0 flex h-dvh w-[82vw] max-w-[320px] flex-col border-r border-slate-200 bg-white shadow-2xl transition-transform duration-300 dark:border-slate-800 dark:bg-slate-950 ${
+        className={`absolute left-0 top-0 flex h-dvh w-[84vw] max-w-[330px] flex-col border-r border-slate-200 bg-white shadow-2xl transition-transform duration-300 dark:border-slate-800 dark:bg-slate-950 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -68,8 +68,8 @@ const MobileDrawer = ({ open, onClose }) => {
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close sidebar"
             className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 text-slate-500 transition hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-900"
-            aria-label="Close menu"
           >
             <X className="h-5 w-5" />
           </button>
@@ -78,7 +78,6 @@ const MobileDrawer = ({ open, onClose }) => {
         <nav className="flex-1 space-y-1 px-3 py-5">
           {navItems.map((item) => {
             const Icon = item.icon;
-
             const active =
               item.path === "/"
                 ? location.pathname === "/"
@@ -119,7 +118,8 @@ const MobileDrawer = ({ open, onClose }) => {
               </div>
 
               <button
-                onClick={onLogout}
+                type="button"
+                onClick={handleLogout}
                 className="flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-white hover:text-red-600 dark:hover:bg-slate-800"
                 title="Logout"
               >
